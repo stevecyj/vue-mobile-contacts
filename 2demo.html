@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>vue 2demo</title>
+        <script src="js/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <my-header></my-header>
+        </div>
+        <div id="app2">
+            <my-header></my-header>
+        </div>
+        <script>
+            //全域組件
+            // Vue.component('my-header', {
+            //     template: '<h2>標題</h2>'
+            // });
+
+            // var vm = new Vue({
+            //     el: '#app'
+            // });
+
+            // var vm = new Vue({
+            //     el: '#app2'
+            // });
+
+            //局部組件
+            var vm = new Vue({
+                el: '#app',
+                components: {
+                    'my-header': {
+                        template: '<h2>標題</h2>'
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
