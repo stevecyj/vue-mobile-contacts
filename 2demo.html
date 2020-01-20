@@ -29,11 +29,28 @@
             // });
 
             //局部組件
+            // var vm = new Vue({
+            //     el: '#app',
+            //     components: {
+            //         'my-header': {
+            //             template: '<h2>標題</h2>'
+            //         }
+            //     }
+            // });
+
             var vm = new Vue({
                 el: '#app',
+                data: {
+                    message: 'hello vue!!!'
+                },
                 components: {
                     'my-header': {
-                        template: '<h2>標題</h2>'
+                        template: '<h2>標題{{message}}</h2>',
+                        data: function() {
+                            return {
+                                message: 'hello myHeader!!!'
+                            };
+                        }
                     }
                 }
             });
