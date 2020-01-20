@@ -4,15 +4,52 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Document</title>
+        <title>手機通訊錄</title>
         <script src="js/vue.js"></script>
     </head>
     <body>
         <div id="app">
-            {{message}}
+            {{message}}<br />
+            {{messageReverse}}<br />
+            <input
+                type="text"
+                v-model="message"
+                @click="changeBgColor"
+                :title="message"
+            />
         </div>
         <script>
-            var vm = new Vue({})
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    message: 'hello vue!!!'
+                },
+                computed: {
+                    messageReverse: function() {
+                        return this.message
+                            .split('')
+                            .reverse()
+                            .join('');
+                    }
+                },
+                methods: {
+                    changeBgColor: function(ev) {
+                        ev.target.style.background = 'red';
+                    }
+                },
+                mounted: function() {
+                    console.log('123');
+                },
+                updated: function() {
+                    console.log('456');
+                },
+                watch: {
+                    message: function(news, olds) {
+                        console.log(news);
+                        console.log(olds);
+                    }
+                }
+            });
         </script>
     </body>
 </html>
