@@ -22,11 +22,11 @@
                     'my-header': {
                         template: `
                             <div>
-                                <h2>{{message}}</h2>
+                                <h2 ref="myTitle">{{message}}</h2>
                                 <ul>
                                     <li v-for="item in list">{{item}}</li>
                                 </ul>
-                                <my-nav :list="list"></my-nav>
+                                <my-nav @changeEvents= "getChildContent" :list="list"></my-nav>
                             </div>`,
                         // props: ['list'],
                         props: {
@@ -43,6 +43,18 @@
                             message: {
                                 type: String,
                                 default: 'hello myHeader'
+                            }
+                        },
+                        data: function() {
+                            return {
+                                nowMessage: this.message
+                            };
+                        },
+                        methods: {
+                            getChildContent: function(e) {
+                                console.log(e);
+                                // this.nowMessage = e;  //數據操作
+                                this.$refs.myTitle.innerHTML = e; //DOM 操作
                             }
                         },
                         components: {
