@@ -59,14 +59,13 @@
                         },
                         components: {
                             'my-nav': {
-                                template: `
-                                    <ul>
-                                        <li @click='getContent' v-for="item in list">{{item}}</li>
-                                    </ul>`,
+                                template: `<ul>
+                                                <li @click='getContent' v-for="item in list">{{item}}</li>
+                                            </ul>`,
                                 props: ['list'],
                                 methods: {
                                     getContent: function(ev) {
-                                        // console.log(this);
+                                        console.log(this);
                                         // console.log(ev.target.innerHTML);
                                         this.$emit(
                                             'changeEvents',
