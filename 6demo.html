@@ -6,56 +6,14 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>vue 6demo</title>
         <script src="js/vue.js"></script>
+        <script src="js/vuex.js"></script>
     </head>
     <body>
-        <div id="app">
+        <!-- <div id="app">
             <div>{{count}}</div>
             <my-addbtn :count="count"></my-addbtn>
             <my-removebtn :count="count"></my-removebtn>
         </div>
-        <!-- <script>
-            var busVm = new Vue();
-
-            var vm = new Vue({
-                el: '#app',
-                components: {
-                    'my-header': {
-                        template: '<h2>{{message}}</h2>',
-                        data: function() {
-                            return {
-                                message: 'hello myHeader!!!'
-                            };
-                        },
-                        mounted: function() {
-                            busVm.$on(
-                                'changeEvents',
-                                function(str) {
-                                    // console.log(str);
-                                    this.message = str;
-                                }.bind(this)
-                            );
-                        }
-                    },
-                    'my-list': {
-                        template:
-                            '<ul><li @click="getContent" v-for="item in list">{{item}}</li></ul>',
-                        data: function() {
-                            return {
-                                list: ['第一項', '第二項', '第三項']
-                            };
-                        },
-                        methods: {
-                            getContent: function(ev) {
-                                busVm.$emit(
-                                    'changeEvents',
-                                    ev.target.innerHTML
-                                );
-                            }
-                        }
-                    }
-                }
-            });
-        </script> -->
 
         <script>
             var busVm = new Vue();
@@ -89,6 +47,55 @@
                         methods: {
                             setCount: function() {
                                 busVm.$emit('changeEvents', this.count - 1);
+                            }
+                        }
+                    }
+                }
+            });
+        </script> -->
+
+        <div id="app">
+            <div>{{count}}</div>
+            <my-addbtn></my-addbtn>
+            <my-removebtn></my-removebtn>
+        </div>
+
+        <script>
+            var store = new Vuex.Store({
+                state: {
+                    count: 0
+                },
+                mutations: {
+                    add: function(state) {
+                        state.count++;
+                    },
+                    remove: function(state) {
+                        state.count--;
+                    }
+                }
+            });
+
+            var vm = new Vue({
+                el: '#app',
+                computed: {
+                    count: function() {
+                        return store.state.count;
+                    }
+                },
+                components: {
+                    'my-addbtn': {
+                        template: '<button @click=setCount>+</button>',
+                        methods: {
+                            setCount: function() {
+                                store.commit('add');
+                            }
+                        }
+                    },
+                    'my-removebtn': {
+                        template: '<button @click=setCount>-</button>',
+                        methods: {
+                            setCount: function() {
+                                store.commit('remove');
                             }
                         }
                     }
