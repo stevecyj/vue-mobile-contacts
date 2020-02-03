@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>vue 8demo</title>
+        <script src="js/vue.js"></script>
+        <script src="js/vuex.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <button @click="changeComponent(1)">第一項</button>
+            <button @click="changeComponent(2)">第二項</button>
+            <button @click="changeComponent(3)">第三項</button>
+            <keep-alive>
+                <component :is="nowHeader"></component>
+            </keep-alive>
+        </div>
+
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    nowHeader: 'my-header-1'
+                },
+                components: {
+                    'my-header-1': {
+                        template: '<div>組件1<input type="text"></div>'
+                    },
+                    'my-header-2': {
+                        template: '<div>組件2<input type="text"></div>'
+                    },
+                    'my-header-3': {
+                        template: '<div>組件3<input type="text"></div>'
+                    }
+                },
+                methods: {
+                    changeComponent: function(index) {
+                        this.nowHeader = 'my-header-' + index;
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

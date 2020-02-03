@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>vue 6demo</title>
+        <script src="js/vue.js"></script>
+        <script src="js/vuex.js"></script>
+    </head>
+    <body>
+        <!-- <div id="app">
+            <my-header>
+                <h2>我是標題1</h2>
+                <h2>我是標題2</h2>
+            </my-header>
+        </div>
+
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                components: {
+                    'my-header': {
+                        template: '<div>我是頭部：<slot></slot></div>'
+                    }
+                }
+            });
+        </script> -->
+
+        <!-- <div id="app">
+            <my-header> </my-header>
+            <my-title></my-title>
+        </div>
+
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                components: {
+                    'my-header': {
+                        template: '<div>我是頭部：</div>'
+                    },
+                    'my-title': {
+                        template: '<h2>我是標題h2</h2>'
+                    }
+                }
+            });
+        </script> -->
+
+        <div id="app">
+            <my-header>
+                <button slot="left">←</button>
+                <!-- <button slot="right">→</button> -->
+            </my-header>
+        </div>
+
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                components: {
+                    'my-header': {
+                        template:
+                            '<div><slot name="left"></slot>我是頭部：<slot name="right"><button slot="right">+</button></slot></div>'
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
