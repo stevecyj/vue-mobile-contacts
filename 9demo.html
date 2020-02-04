@@ -2,26 +2,25 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-            user-scalable="no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>vue 9demo</title>
+        <link rel="stylesheet" href="css/all.css" />
         <script src="js/vue.js"></script>
         <script src="js/vuex.js"></script>
     </head>
     <body>
         <div id="app">
-            <div id="header">
-                <button>返回</button>
-                通訊錄
-                <button>主頁</button>
-            </div>
+            <my-header></my-header>
         </div>
-
         <script>
+            Vue.component('my-header', {
+                template: `<div id="header">
+                                <button>返回</button>
+                                通訊錄
+                                <button>主頁</button>
+                            </div>`
+            });
             var vm = new Vue({
                 el: '#app'
             });
