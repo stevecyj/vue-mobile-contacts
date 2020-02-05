@@ -11,18 +11,40 @@
     </head>
     <body>
         <div id="app">
-            <my-header></my-header>
+            <my-header custom-title="通訊錄" custom-fixed>
+                <button @touchstart="backBtn" slot="left">返回</button>
+                <button @touchstart="homeBtn" slot="right">主頁</button>
+            </my-header custom-title="通訊錄">
         </div>
         <script>
             Vue.component('my-header', {
-                template: `<div id="header">
-                                <button>返回</button>
-                                通訊錄
-                                <button>主頁</button>
-                            </div>`
+                template:  `<div id="header" :style="{'position' : customFixed ? 'fixed' : 'static'}">
+                                <slot name="left"></slot>
+                                {{customTitle}}
+                                <slot name="right"></slot>
+                            </div>`,
+                props: {
+                    customTitle: {
+                        type: String,
+                        default: '標題'
+                    },
+                    customFixed: {
+                        type: Boolean,
+                        default: false
+                    }
+
+                }
             });
             var vm = new Vue({
-                el: '#app'
+                el: '#app',
+                methods: {
+                    backBtn: function(){
+                        alert(123);
+                    },
+                    homeBtn: function(){
+                        alert(456);
+                    }
+                },
             });
         </script>
     </body>
