@@ -14,11 +14,35 @@
             <my-header custom-title="通訊錄" custom-fixed>
                 <button @touchstart="backBtn" slot="left">返回</button>
                 <button @touchstart="homeBtn" slot="right">主頁</button>
-            </my-header custom-title="通訊錄">
+            </my-header>
+            <div id="list">
+                <ul class="list_user">
+                    <li>
+                        <p>A</p>
+                        <ul>
+                            <li>a1</li>
+                            <li>a2</li>
+                            <li>a3</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>B</p>
+                        <ul>
+                            <li>b2</li>
+                            <li>b3</li>
+                            <li>b1</li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="list_index">
+                    <li>A</li>
+                    <li>B</li>
+                </ul>
+            </div>
         </div>
         <script>
             Vue.component('my-header', {
-                template:  `<div id="header" :style="{'position' : customFixed ? 'fixed' : 'static'}">
+                template: `<div id="header" :style="{'position' : customFixed ? 'fixed' : 'absolute'}">
                                 <slot name="left"></slot>
                                 {{customTitle}}
                                 <slot name="right"></slot>
@@ -32,19 +56,18 @@
                         type: Boolean,
                         default: false
                     }
-
                 }
             });
             var vm = new Vue({
                 el: '#app',
                 methods: {
-                    backBtn: function(){
+                    backBtn: function() {
                         alert(123);
                     },
-                    homeBtn: function(){
+                    homeBtn: function() {
                         alert(456);
                     }
-                },
+                }
             });
         </script>
     </body>
