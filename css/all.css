@@ -41,3 +41,26 @@ body {
     top: 40px;
     overflow: hidden;
 }
+
+#list .list_user p {
+    background: #ccc;
+    padding-left: 10px;
+}
+
+#list .list_user ul li {
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px #ccc solid;
+    padding-left: 10px;
+}
+
+#list .list_index {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    font-size: 20px;
+}
+
+#list .list_index li {
+    margin: 5px 0;
+}
