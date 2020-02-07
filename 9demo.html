@@ -15,9 +15,60 @@
                 <button @touchstart="backBtn" slot="left">返回</button>
                 <button @touchstart="homeBtn" slot="right">主頁</button>
             </my-header>
-            <my-list></my-list>
+            <my-list :user-data="userData"></my-list>
         </div>
         <script>
+            var userData = [
+                {
+                    index: 'A',
+                    users: [
+                        { name: 'a1', tel: '0912111111' },
+                        { name: 'a2', tel: '0912111112' },
+                        { name: 'a3', tel: '0912111113' }
+                    ]
+                },
+                {
+                    index: 'B',
+                    users: [
+                        { name: 'b1', tel: '0912111114' },
+                        { name: 'b2', tel: '0912111115' },
+                        { name: 'b3', tel: '0912111116' }
+                    ]
+                },
+                {
+                    index: 'C',
+                    users: [
+                        { name: 'c1', tel: '0912111117' },
+                        { name: 'c2', tel: '0912111118' },
+                        { name: 'c3', tel: '0912111119' }
+                    ]
+                },
+                {
+                    index: 'D',
+                    users: [
+                        { name: 'd1', tel: '0912111121' },
+                        { name: 'd2', tel: '0912111122' },
+                        { name: 'd3', tel: '0912111123' }
+                    ]
+                },
+                {
+                    index: 'E',
+                    users: [
+                        { name: 'e1', tel: '0912111124' },
+                        { name: 'e2', tel: '0912111125' },
+                        { name: 'e3', tel: '0912111126' }
+                    ]
+                },
+                {
+                    index: 'F',
+                    users: [
+                        { name: 'f1', tel: '0912111127' },
+                        { name: 'f2', tel: '0912111128' },
+                        { name: 'f3', tel: '0912111129' }
+                    ]
+                }
+            ];
+
             Vue.component('my-header', {
                 template: `<div id="header" :style="{'position' : customFixed ? 'fixed' : 'absolute'}">
                                 <slot name="left"></slot>
@@ -39,20 +90,10 @@
             Vue.component('my-list', {
                 template: `<div id="list">
                                 <ul class="list_user">
-                                    <li>
-                                        <p>A</p>
-                                        <ul>
-                                            <li>a1</li>
-                                            <li>a2</li>
-                                            <li>a3</li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <p>B</p>
-                                        <ul>
-                                            <li>b2</li>
-                                            <li>b3</li>
-                                            <li>b1</li>
+                                    <li v-for="item in userData">
+                                        <p>{{item.index}}</p>
+                                        <ul v-for="user in item.users">
+                                            <li>{{user.name}}</li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -61,10 +102,20 @@
                                     <li>B</li>
                                 </ul>
                             </div>`,
-                props: {}
+                props: {
+                    'user-data': {
+                        type: Array,
+                        default: function() {
+                            return [];
+                        }
+                    }
+                }
             });
             var vm = new Vue({
                 el: '#app',
+                data: {
+                    userData: userData
+                },
                 methods: {
                     backBtn: function() {
                         alert(123);
