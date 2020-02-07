@@ -24,7 +24,10 @@
                     users: [
                         { name: 'a1', tel: '0912111111' },
                         { name: 'a2', tel: '0912111112' },
-                        { name: 'a3', tel: '0912111113' }
+                        { name: 'a3', tel: '0912111113' },
+                        { name: 'a4', tel: '0912111114' },
+                        { name: 'a5', tel: '0912111115' },
+                        { name: 'a6', tel: '0912111116' }
                     ]
                 },
                 {
@@ -32,7 +35,10 @@
                     users: [
                         { name: 'b1', tel: '0912111114' },
                         { name: 'b2', tel: '0912111115' },
-                        { name: 'b3', tel: '0912111116' }
+                        { name: 'b3', tel: '0912111116' },
+                        { name: 'b4', tel: '0912111117' },
+                        { name: 'b5', tel: '0912111118' },
+                        { name: 'b6', tel: '0912111119' }
                     ]
                 },
                 {
@@ -40,7 +46,10 @@
                     users: [
                         { name: 'c1', tel: '0912111117' },
                         { name: 'c2', tel: '0912111118' },
-                        { name: 'c3', tel: '0912111119' }
+                        { name: 'c3', tel: '0912111119' },
+                        { name: 'c4', tel: '0912111117' },
+                        { name: 'c5', tel: '0912111118' },
+                        { name: 'c6', tel: '0912111119' }
                     ]
                 },
                 {
@@ -48,7 +57,10 @@
                     users: [
                         { name: 'd1', tel: '0912111121' },
                         { name: 'd2', tel: '0912111122' },
-                        { name: 'd3', tel: '0912111123' }
+                        { name: 'd3', tel: '0912111123' },
+                        { name: 'd4', tel: '0912111121' },
+                        { name: 'd5', tel: '0912111122' },
+                        { name: 'd6', tel: '0912111123' }
                     ]
                 },
                 {
@@ -56,7 +68,10 @@
                     users: [
                         { name: 'e1', tel: '0912111124' },
                         { name: 'e2', tel: '0912111125' },
-                        { name: 'e3', tel: '0912111126' }
+                        { name: 'e3', tel: '0912111126' },
+                        { name: 'e4', tel: '0912111124' },
+                        { name: 'e5', tel: '0912111125' },
+                        { name: 'e6', tel: '0912111126' }
                     ]
                 },
                 {
@@ -64,7 +79,10 @@
                     users: [
                         { name: 'f1', tel: '0912111127' },
                         { name: 'f2', tel: '0912111128' },
-                        { name: 'f3', tel: '0912111129' }
+                        { name: 'f3', tel: '0912111129' },
+                        { name: 'f4', tel: '0912111127' },
+                        { name: 'f5', tel: '0912111128' },
+                        { name: 'f6', tel: '0912111129' }
                     ]
                 }
             ];
@@ -89,7 +107,7 @@
 
             Vue.component('my-list', {
                 template: `<div id="list">
-                                <ul class="list_user">
+                                <ul class="list_user" ref="listUser">
                                     <li v-for="item in userData">
                                         <p>{{item.index}}</p>
                                         <ul v-for="user in item.users">
@@ -97,9 +115,8 @@
                                         </ul>
                                     </li>
                                 </ul>
-                                <ul class="list_index">
-                                    <li>A</li>
-                                    <li>B</li>
+                                <ul class="list_index" ref="listIndex">
+                                    <li @touchstart="setScroll" v-for="item in userIndex">{{item}}</li>
                                 </ul>
                             </div>`,
                 props: {
@@ -109,6 +126,39 @@
                             return [];
                         }
                     }
+                },
+                computed: {
+                    userIndex: function() {
+                        return this.filterIndex(this.userData);
+                    }
+                },
+                methods: {
+                    filterIndex: function(data) {
+                        var result = [];
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].index) {
+                                result.push(data[i].index);
+                            }
+                        }
+                        return result;
+                    },
+                    setListIndexPos: function() {
+                        var iH = this.$refs.listIndex.offsetHeight;
+                        this.$refs.listIndex.style.marginTop = -iH / 2 + 'px';
+                    },
+                    setScroll: function(ev) {
+                        var aP = this.$refs.listUser.getElementsByTagName('p');
+                        for (var i = 0; i < aP.length; i++) {
+                            console.log(document.body.scrollTop);
+                            if (aP[i].innerHTML == ev.target.innerHTML) {
+                                document.documentElement.scrollTop =
+                                    aP[i].offsetTop;
+                            }
+                        }
+                    }
+                },
+                mounted: function() {
+                    this.setListIndexPos();
                 }
             });
             var vm = new Vue({
