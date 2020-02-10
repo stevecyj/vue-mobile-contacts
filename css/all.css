@@ -73,7 +73,7 @@ li {
     left: 0;
     top: 0;
     z-index: 20;
-    display: none;
+    display: flex;
 }
 
 #alert .alert_content {

@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>vue 10demo</title>
+        <title>vue 11demo</title>
         <link rel="stylesheet" href="css/all.css" />
         <script src="js/vue.js"></script>
         <script src="js/vuex.js"></script>
@@ -16,10 +16,10 @@
                 <button @touchstart="homeBtn" slot="right">主頁</button>
             </my-header>
             <my-list :user-data="userData"></my-list>
-            <my-alert custom-title="呼叫">
+            <!-- <my-alert custom-title="呼叫">
                 <button @touchstart="confirmBtn">確定</button>
                 <button @touchstart="cancelBtn">取消</button>
-            </my-alert>
+            </my-alert> -->
         </div>
         <script>
             var userData = [
@@ -90,8 +90,6 @@
                     ]
                 }
             ];
-
-            var busVM = new Vue();
 
             Vue.component('my-header', {
                 template: `<div id="header" :style="{'position' : customFixed ? 'fixed' : 'absolute'}">
@@ -170,7 +168,19 @@
                     showTel: function(tel) {
                         if (!this.bMove) {
                             // console.log(tel);
-                            busVM.$emit('changeEvents', tel);
+                            myAlert({
+                                title: '呼叫',
+                                body: tel,
+                                confirm: function() {
+                                    alert(1);
+                                },
+                                cancel: function() {
+                                    alert(2);
+                                    document.body.removeChild(
+                                        document.getElementById('alert')
+                                    );
+                                }
+                            });
                         } else {
                             this.bMove = false;
                         }
@@ -181,38 +191,79 @@
                 }
             });
 
-            Vue.component('my-alert', {
-                template: `<div id="alert" ref="alert">
+            // Vue.component('my-alert', {
+            //     template: `<div id="alert" ref="alert">
+            //                     <div class="alert_content">
+            //                         <div class="alert_title">{{customTitle}}</div>
+            //                         <div class="alert_body">{{customBody}}</div>
+            //                         <div class="alert_btn">
+            //                             <slot></slot>
+            //                         </div>
+            //                     </div>
+            //                 </div>`,
+            //     props: {
+            //         customTitle: {
+            //             type: String,
+            //             default: '彈跳視窗'
+            //         }
+            //     },
+            //     data: function() {
+            //         return {
+            //             customBody: ''
+            //         };
+            //     },
+            //     mounted: function() {
+            //         busVM.$on(
+            //             'changeEvents',
+            //             function(tel) {
+            //                 // console.log(tel);
+            //                 this.customBody = tel;
+            //                 this.$refs.alert.style.display = 'flex';
+            //             }.bind(this)
+            //         );
+            //     }
+            // });
+
+            var myAlert = (function() {
+                var defaults = {
+                    title: '彈窗',
+                    body: '',
+                    confirm: null,
+                    cancel: null
+                };
+
+                var alertCom = {
+                    template: `<div id="alert" ref="alert">
                                 <div class="alert_content">
                                     <div class="alert_title">{{customTitle}}</div>
                                     <div class="alert_body">{{customBody}}</div>
                                     <div class="alert_btn">
-                                        <slot></slot>
+                                        <button v-if="confirm" @touchstart="confirm">確定</button>
+                                        <button v-if="cancel" @touchstart="cancel">取消</button>
                                     </div>
                                 </div>
-                            </div>`,
-                props: {
-                    customTitle: {
-                        type: String,
-                        default: '彈跳視窗'
+                            </div>`
+                };
+
+                var MyComponent = Vue.extend(alertCom);
+
+                //接受配置，把配置覆蓋給預設
+                return function(opts) {
+                    for (var attr in opts) {
+                        defaults[attr] = opts[attr];
                     }
-                },
-                data: function() {
-                    return {
-                        customBody: ''
-                    };
-                },
-                mounted: function() {
-                    busVM.$on(
-                        'changeEvents',
-                        function(tel) {
-                            // console.log(tel);
-                            this.customBody = tel;
-                            this.$refs.alert.style.display = 'flex';
-                        }.bind(this)
-                    );
-                }
-            });
+                    var vm = new MyComponent({
+                        el: document.createElement('div'),
+                        data: {
+                            customTitle: defaults.title,
+                            customBody: defaults.body,
+                            confirm: defaults.confirm,
+                            cancel: defaults.cancel
+                        }
+                    });
+                    document.body.appendChild(vm.$el);
+                };
+            })();
 
             var vm = new Vue({
                 el: '#app',
@@ -225,14 +276,6 @@
                     },
                     homeBtn: function() {
                         alert(456);
-                    },
-                    confirmBtn: function() {
-                        alert(777);
-                    },
-                    cancelBtn: function() {
-                        // alert(888);
-                        console.log(this);
-                        this.$children[2].$el.style.display = 'none';
                     }
                 }
             });
