@@ -17,8 +17,8 @@
             </my-header>
             <my-list :user-data="userData"></my-list>
             <my-alert custom-title="呼叫">
-                <button>確定</button>
-                <button>取消</button>
+                <button @touchstart="confirmBtn">確定</button>
+                <button @touchstart="cancelBtn">取消</button>
             </my-alert>
         </div>
         <script>
@@ -90,6 +90,8 @@
                     ]
                 }
             ];
+
+            var busVM = new Vue();
 
             Vue.component('my-header', {
                 template: `<div id="header" :style="{'position' : customFixed ? 'fixed' : 'absolute'}">
@@ -167,7 +169,8 @@
                     },
                     showTel: function(tel) {
                         if (!this.bMove) {
-                            console.log(tel);
+                            // console.log(tel);
+                            busVM.$emit('changeEvents', tel);
                         } else {
                             this.bMove = false;
                         }
@@ -179,10 +182,10 @@
             });
 
             Vue.component('my-alert', {
-                template: `<div id="alert">
+                template: `<div id="alert" ref="alert">
                                 <div class="alert_content">
                                     <div class="alert_title">{{customTitle}}</div>
-                                    <div class="alert_body">091234567899</div>
+                                    <div class="alert_body">{{customBody}}</div>
                                     <div class="alert_btn">
                                         <slot></slot>
                                     </div>
@@ -193,6 +196,21 @@
                         type: String,
                         default: '彈跳視窗'
                     }
+                },
+                data: function() {
+                    return {
+                        customBody: ''
+                    };
+                },
+                mounted: function() {
+                    busVM.$on(
+                        'changeEvents',
+                        function(tel) {
+                            // console.log(tel);
+                            this.customBody = tel;
+                            this.$refs.alert.style.display = 'flex';
+                        }.bind(this)
+                    );
                 }
             });
 
@@ -207,6 +225,14 @@
                     },
                     homeBtn: function() {
                         alert(456);
+                    },
+                    confirmBtn: function() {
+                        alert(777);
+                    },
+                    cancelBtn: function() {
+                        // alert(888);
+                        console.log(this);
+                        this.$children[2].$el.style.display = 'none';
                     }
                 }
             });
